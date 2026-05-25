@@ -62,6 +62,16 @@ SMH + VGT + TECL. Full allocation including leveraged tech for maximum recovery 
 | Buy TECL | 543.0% | 34.66% | -78.0% |
 | **Two-Map Strategy** | **540.6%** | **34.58%** | **-41.6%** |
 
+### Recent Period (Feb 19, 2025 → May 22, 2026, 1.3 years)
+
+| Strategy | Total Return | Ann. Return | Max DD |
+|----------|-------------|-------------|--------|
+| Buy SPY | 23.42% | 18.31% | -18.76% |
+| Buy SMH | 124.65% | 90.96% | -30.20% |
+| Buy VGT | 44.67% | 34.33% | -26.83% |
+| Buy TECL | 125.70% | 91.67% | -61.98% |
+| **Two-Map Strategy** | **89.78%** | **66.87%** | **-28.02%** |
+
 ### Year-by-Year Returns
 
 | Year | SPY | SMH | VGT | TECL | Strategy |
@@ -109,6 +119,28 @@ SMH + VGT + TECL. Full allocation including leveraged tech for maximum recovery 
 |------|------|-----------|
 | Map A (no TECL) | 1080 | 68.6% |
 | Map B (crash mode) | 494 | 31.4% |
+
+### Recent Period Signal Distribution (Feb 2025 → May 2026)
+
+- **Mean:** 5.40%
+- **Median:** 6.94%
+- **Std:** 5.20%
+- **Min:** -13.50%
+- **Max:** 13.01%
+
+### Recent Period Mode Distribution
+
+| Mode | Days | % of Time |
+|------|------|-----------|
+| Map A (no TECL) | 208 | 65.62% |
+| Map B (crash mode) | 109 | 34.38% |
+
+### Recent Period Crash Events
+
+| Event | Date | Signal | Duration |
+|-------|------|--------|----------|
+| Enter Map B | 2025-04-04 | -12.04% | 109 consecutive days |
+| Exit Map B | 2025-09-11 | +10.24% | — |
 
 ## Key Findings
 

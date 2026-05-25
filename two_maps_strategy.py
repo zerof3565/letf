@@ -168,7 +168,7 @@ print("=" * 80)
 print(f"{'Strategy':<40} {'Total Return':>14} {'Ann. Return':>13} {'Max DD':>11}")
 print("=" * 80)
 for m in metrics:
-    print(f"{m['name']:<40} {m['total_return']:>13.1f}% {m['ann_return']:>12.2f}% {m['max_dd']:>10.1f}%")
+    print(f"{m['name']:<40} {m['total_return']:>13.2f}% {m['ann_return']:>12.2f}% {m['max_dd']:>10.2f}%")
 print("=" * 80)
 print()
 
@@ -192,7 +192,7 @@ for i in range(len(df)):
 
 print(f"Map B (crash mode) stats:")
 print(f"  Number of crash periods entered: {b_periods}")
-print(f"  Total days in Map B: {b_total_days} ({b_total_days/len(df)*100:.1f}%)")
+print(f"  Total days in Map B: {b_total_days} ({b_total_days/len(df)*100:.2f}%)")
 print(f"  Max consecutive days in Map B: {b_max_days}")
 print()
 
@@ -232,7 +232,7 @@ print(f"{'Year':<8} {'SPY':>10} {'SMH':>10} {'VGT':>10} {'TECL':>10} {'Strategy'
 print("-" * 70)
 for yr in sorted(strat_yearly.keys()):
     marker = " **" if abs(strat_yearly[yr]) > abs(spy_yearly[yr]) else ""
-    print(f"{yr:<8} {spy_yearly[yr]:>9.1f}% {smh_yearly[yr]:>9.1f}% {vgt_yearly[yr]:>9.1f}% {tecl_yearly[yr]:>9.1f}% {strat_yearly[yr]:>11.1f}%{marker}")
+    print(f"{yr:<8} {spy_yearly[yr]:>9.2f}% {smh_yearly[yr]:>9.2f}% {vgt_yearly[yr]:>9.2f}% {tecl_yearly[yr]:>9.2f}% {strat_yearly[yr]:>11.2f}%{marker}")
 print("=" * 75)
 print()
 
@@ -242,7 +242,7 @@ print("Weight Distribution:")
 print("=" * 75)
 print(f"{'Metric':<15} {'SMH':>10} {'VGT':>10} {'TECL':>10}")
 print("-" * 45)
-print(f"{'Mean':<15} {df['allocation_SMH'].mean():>9.1f}% {df['allocation_VGT'].mean():>9.1f}% {df['allocation_TECL'].mean():>9.1f}%")
+print(f"{'Mean':<15} {df['allocation_SMH'].mean():>9.2f}% {df['allocation_VGT'].mean():>9.2f}% {df['allocation_TECL'].mean():>9.2f}%")
 print(f"{'Median':<15} {df['allocation_SMH'].median():>9.0f}% {df['allocation_VGT'].median():>9.0f}% {df['allocation_TECL'].median():>9.0f}%")
 print()
 
@@ -267,7 +267,7 @@ print("-" * 50)
 for name, (lo, hi) in zip(zone_names, zone_ranges):
     count = ((valid_pct >= lo) & (valid_pct < hi)).sum()
     pct_val = count / len(valid_pct) * 100
-    print(f"  {name:<25} {count:>6} days  ({pct_val:5.1f}%)")
+    print(f"  {name:<25} {count:>6} days  ({pct_val:5.2f}%)")
 print("-" * 50)
 print()
 
@@ -276,7 +276,26 @@ print("Days in Each Mode:")
 print("-" * 50)
 map_a_days = (~df["in_map_b"]).sum()
 map_b_days = df["in_map_b"].sum()
-print(f"  Map A (no TECL):  {map_a_days:>6} days  ({map_a_days/len(df)*100:.1f}%)")
-print(f"  Map B (crash):    {map_b_days:>6} days  ({map_b_days/len(df)*100:.1f}%)")
+print(f"  Map A (no TECL):  {map_a_days:>6} days  ({map_a_days/len(df)*100:.2f}%)")
+print(f"  Map B (crash):    {map_b_days:>6} days  ({map_b_days/len(df)*100:.2f}%)")
 print("-" * 50)
 print()
+
+# --- Export daily verification CSV ---
+verification_df = pd.DataFrame({
+    "date": df["date"].values,
+    "signal_pct_from_sma": df["signal_pct_from_sma"].values,
+    "mode": ["B" if b else "A" for b in df["in_map_b"].values],
+    "allocation_SMH": df["allocation_SMH"].values,
+    "allocation_VGT": df["allocation_VGT"].values,
+    "allocation_TECL": df["allocation_TECL"].values,
+    "spy_ret": df["spy_ret"].values,
+    "smh_ret": df["smh_ret"].values,
+    "vgt_ret": df["vgt_ret"].values,
+    "tecl_ret": df["tecl_ret"].values,
+    "strategy_ret": strategy_ret.fillna(0).values,
+    "strategy_equity": strategy_equity.values,
+    "spy_equity": spy_equity.values,
+})
+verification_df.to_csv("daily_verification.csv", index=False)
+print(f"Daily verification exported to daily_verification.csv ({len(verification_df)} rows)")
